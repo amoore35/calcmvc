@@ -1,0 +1,12 @@
+package edu.elon.math;
+
+import java.util.Observable;
+import java.util.Observer;
+
+public interface CalcModelInterface {
+
+	public double calculate(String op, double val1, double val2);
+	
+	public void addObserver(Observer o);
+	
+}

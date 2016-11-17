@@ -1,0 +1,15 @@
+package edu.elon.math;
+
+import java.util.Observable;
+
+public class CalcModel extends Observable implements CalcModelInterface{
+
+	@Override
+	public double calculate(String op, double val1, double val2) {
+		// TODO Auto-generated method stub
+	
+		return 0;
+	}
+
+	
+}

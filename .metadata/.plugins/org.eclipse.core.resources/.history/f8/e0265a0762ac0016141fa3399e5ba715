@@ -1,0 +1,37 @@
+package edu.elon.math;
+
+import java.util.Observable;
+
+public class CalcModel extends Observable implements CalcModelInterface{
+	
+	private final String nums = "7894561230.";
+	private final String ops =  "/*-=+";
+	private String currText;
+	
+	public CalcModel() {
+		currText = "0";
+	}
+
+	@Override
+	public double calculate(String op, double val1, double val2) {
+	
+		return 0;
+	}
+	
+	public String getPossNums() {
+		return nums;
+	}
+	
+	public String getPossOps() {
+		return ops;
+	}
+
+	@Override
+	public String getInputText() {
+		return currText;	
+	}
+	
+	
+
+	
+}

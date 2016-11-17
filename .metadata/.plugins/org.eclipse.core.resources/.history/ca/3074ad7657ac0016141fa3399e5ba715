@@ -1,0 +1,7 @@
+import edu.elon.calculator.view.CalcView;
+
+public class CalculatorMain {
+	CalcView view = new CalcView();
+	
+	
+}

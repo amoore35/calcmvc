@@ -1,0 +1,12 @@
+import edu.elon.math.CalcView;
+
+public class CalculatorMain {
+	
+	public static void main(String [] args) {
+
+		CalcView view = new CalcView();
+		view.createGui();
+	}
+	
+	
+}

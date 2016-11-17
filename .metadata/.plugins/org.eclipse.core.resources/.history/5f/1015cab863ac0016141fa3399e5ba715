@@ -1,0 +1,51 @@
+package edu.elon.math;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
+public class CalcController implements CalcControllerInterface{
+	
+	private CalcModelInterface model;
+	private CalcView view;
+	private boolean begin = true;
+	
+	public CalcController(CalcModelInterface model, CalcView view) {
+		this.model = model;
+		this.view = view;
+		
+		model.addObserver(view);
+		
+		
+		
+		
+	}
+	
+	public void setCalcModel(CalcModelInterface model) {
+		
+	}
+	
+	private class ButtonListener implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent event) {
+			JButton currButton = (JButton) event.getSource();
+			String pressed = event.getActionCommand();
+			
+			if (model.getPossNums().contains(pressed)) {
+				if (begin == true) {
+					view.setText(pressed);
+					model.
+					begin = false;
+				} else {
+					view.setText(view.getText() + pressed);
+				}
+				
+			} 
+			
+		}
+		
+	}
+
+}

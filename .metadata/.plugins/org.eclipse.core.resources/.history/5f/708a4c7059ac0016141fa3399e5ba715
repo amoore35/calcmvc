@@ -1,0 +1,5 @@
+package edu.elon.calculator.model;
+
+public class CalcModel {
+
+}

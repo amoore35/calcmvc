@@ -1,0 +1,12 @@
+package edu.elon.math;
+public class CalculatorMain {
+	
+	public static void main(String [] args) {
+		CalcModelInterface model = new CalcModel();
+		CalcView view = new CalcView();
+		CalcControllerInterface controller = new CalcController(model, view);
+		view.createGui();
+	}
+	
+	
+}

@@ -1,0 +1,71 @@
+package edu.elon.math;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class CalcView extends JFrame implements Observer, ActionListener {
+	
+	private static final long serialVersionUID = 1L;
+	private JTextField textField;
+	private ArrayList<JButton> buttons;
+	private CalcModelInterface model;
+	private CalcControllerInterface controller;
+	private boolean begin = true;
+	private final String btns = "789/456*123-0.=+";
+	
+	public CalcView(CalcControllerInterface controller, CalcModelInterface model) {
+		this.controller = controller;
+		this.model = model;
+		model.addObserver(this);
+		buttons = new ArrayList<>();
+	}
+	
+	public void createGui() {
+		this.setLayout(new BorderLayout());
+		this.setTitle("Calculator");
+		
+		textField = new JTextField("0");
+		textField.setEditable(true);
+		this.add(textField, "North");
+		JPanel calcPanel = new JPanel();
+		calcPanel.setLayout(new GridLayout(4,4));
+	
+		for (int i = 0; i < btns.length(); i++) {
+			JButton btn = new JButton(btns.substring(i, i+1));
+			calcPanel.add(btn);
+			buttons.add(btn);
+			btn.addActionListener(this);
+		}
+		
+		this.add(calcPanel);
+		this.pack();
+		this.setSize(300, 300);
+		this.setVisible(true);
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		if (o instanceof CalcModelInterface) {
+			CalcModelInterface model = (CalcModelInterface) o;
+			textField.setText(model.getCurrText());
+		}
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		String pressed = event.getActionCommand();
+		controller.processInput(pressed);
+		
+	}
+}
+

@@ -1,0 +1,31 @@
+package edu.elon.accessories;
+
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+public class CalculatorImpl extends UnicastRemoteObject implements Calculator {
+	
+	String name;
+	
+	public CalculatorImpl(String name) throws RemoteException {
+		this.name = name;
+	}
+
+	@Override
+	public double getCalculation(double x, double y, String symb) throws RemoteException {
+		double total = 0;
+		if (symb.equals("+")) {
+			total = x + y;
+		} else if (symb.equals("/")) {
+			total = x / y;
+		} else if (symb.equals("*")) {
+			total = x * y;
+		} else if (symb.equals("-")) {
+			total = x - y;
+		} else if (symb.equals("=")) {
+			total = y;
+		}
+		return total;
+	}
+
+}

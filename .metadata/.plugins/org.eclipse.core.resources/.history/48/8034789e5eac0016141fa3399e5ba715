@@ -1,0 +1,19 @@
+package edu.elon.math;
+
+public class CalcController implements CalcControllerInterface{
+	
+	private CalcModelInterface model;
+	private CalcView view;
+	
+	public CalcController(CalcModelInterface model, CalcView view) {
+		this.model = model;
+		this.view = view;
+		
+		
+	}
+	
+	public void setCalcModel(CalcModelInterface model) {
+		
+	}
+
+}

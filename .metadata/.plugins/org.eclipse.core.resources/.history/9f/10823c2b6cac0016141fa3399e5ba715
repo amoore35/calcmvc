@@ -1,0 +1,40 @@
+package edu.elon.math;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+
+public class CalcController implements CalcControllerInterface{
+	
+	private CalcModelInterface model;
+	private CalcView view;
+	private boolean begin = true;
+	
+	public CalcController(CalcModelInterface model, CalcView view) {
+		this.model = model;
+		view = new CalcView(this, model);
+		
+		view.createGui();
+
+		
+	}
+	
+	public String calculate() {
+		return model.calculate();
+	}
+	
+	public void setInputs(String pressed) {
+		model.setCurrText(pressed);
+	}
+	
+	public void addToCalculation(String pressed) {
+		model.addToCurrCalculation(pressed);
+	}
+	
+	public String getCurrText() {
+		return model.getCurrText();
+	}
+
+
+}

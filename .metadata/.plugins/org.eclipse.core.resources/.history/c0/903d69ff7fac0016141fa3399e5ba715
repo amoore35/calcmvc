@@ -1,0 +1,60 @@
+package edu.elon.math;
+
+public class CalcController implements CalcControllerInterface{
+	
+	private CalcModelInterface model;
+	private CalcView view;
+	private boolean begin;
+	
+	public CalcController(CalcModelInterface model) {
+		this.model = model;
+		begin = true;
+		view = new CalcView(this, model);
+		
+		view.createGui();
+	}
+	
+	public String calculate() {
+		return model.calculate();
+	}
+	
+	public void setInputs(String pressed) {
+		model.setCurrText(pressed);
+	}
+	
+	public void addToCalculation(String pressed) {
+		model.addToCurrCalculation(pressed);
+	}
+	
+	public String getCurrText() {
+		return model.getCurrText();
+	}
+
+	@Override
+	public void processInput(String pressed) {
+		if (begin == true) {
+			if (!model.getPossOps().contains(pressed)){
+				setInputs(pressed);
+				addToCalculation(pressed);
+				begin = false;
+			}
+		} else {
+			if (!(getCurrText().contains(".") && pressed.equals("."))){
+				if (pressed.equals("=")) {
+					String total = calculate();
+					setInputs(total);
+				} else if (model.getPossOps().contains(pressed)) {
+					addToCalculation(pressed);
+					begin = true;
+					
+				} else {
+					setInputs(getCurrText() + pressed);
+					addToCalculation(pressed);
+				}		
+			}
+		}
+		
+	}
+
+
+}

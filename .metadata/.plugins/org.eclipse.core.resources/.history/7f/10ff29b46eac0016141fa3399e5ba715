@@ -1,0 +1,88 @@
+package edu.elon.math;
+
+import java.util.ArrayList;
+import java.util.Observable;
+
+public class CalcModel extends Observable implements CalcModelInterface{
+	
+	private final String nums = "7894561230.";
+	private final String ops =  "/*-=+";
+	private String currText;
+	private ArrayList<String> currentCalculation;
+	
+	public CalcModel() {
+		currText = "0";
+		currentCalculation = new ArrayList<>();
+	}
+
+	public String calculate() {
+		System.out.println(currentCalculation);
+		String total = "0";
+		double calc = 0;
+		double v1 = Double.parseDouble(currentCalculation.get(currentCalculation.size() - 3));
+		double v2 = Double.parseDouble(currentCalculation.get(currentCalculation.size() - 1));
+		String op = currentCalculation.get(currentCalculation.size() - 2);
+		if (op.equals("+")) {
+			calc = v1 + v2;
+		} else if (op.equals("-")) {
+			calc = v1 - v2;
+		} else if (op.equals("*")) {
+			calc = v1 * v2;
+		} else if (op.equals("/")) {
+			calc = v1 / v2;
+		}
+		
+		total = calc + "";
+		currentCalculation.clear();
+		currentCalculation.add(total);
+		return total;
+	}
+	
+	public String getPossNums() {
+		return nums;
+	}
+	
+	public String getPossOps() {
+		return ops;
+	}
+
+	public String getCurrText() {
+		return currText;	
+	}
+	
+	public void setCurrText(String currText) {
+		this.currText = currText;
+		textChanged();
+	}
+	
+	public void textChanged() {
+		setChanged();
+		notifyObservers();
+	}
+
+	public void addToCurrCalculation(String value) {
+		String prevVal = "";
+		if (currentCalculation.size() >= 1) {
+			prevVal = currentCalculation.get(currentCalculation.size() - 1);
+		}
+		
+		if (nums.contains(value) && !prevVal.equals("")) {
+			if (nums.contains(prevVal)){
+				prevVal += value;
+				currentCalculation.add(prevVal);
+			}
+		} else if (ops.contains(value) && !prevVal.equals("")) {
+			if (ops.contains(prevVal)) {
+				prevVal = value;
+				currentCalculation.add(prevVal);
+			} else {
+				return;
+			}
+		} else {
+			currentCalculation.add(value);
+			System.out.println("Added first value...");
+		}
+	
+	}
+	
+}

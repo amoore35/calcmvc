@@ -1,0 +1,26 @@
+package edu.elon.math;
+
+import java.util.Observable;
+import java.util.Observer;
+
+public interface CalcModelInterface {
+
+	public double calculate(String op, double val1, double val2);
+	
+	public void addObserver(Observer o);
+
+	public String getInputText();
+	
+	public String getPossOps();
+	
+	public String getPossNums();
+	
+	public void addToCurrCalculation(String value);
+	
+	public String getCurrOp();
+	
+	public String getCurrVal1();
+	
+	public String getCurrVal2();
+	
+}

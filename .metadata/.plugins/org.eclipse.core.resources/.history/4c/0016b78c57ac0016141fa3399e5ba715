@@ -1,0 +1,104 @@
+package edu.elon.accessories;
+
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.rmi.RemoteException;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class CalculatorClient extends JFrame {
+	
+	private JTextField textField;
+	private boolean begin = true;
+	private double total = 0.0;
+	private String symb = "=";
+	private Calculator c;
+	
+	public static void main(String[] args) {
+		System.setProperty("java.security.policy", "client.policy");
+	    System.setSecurityManager(new SecurityManager());
+	    String url = "rmi://localhost/";
+	    if (args.length == 1) {
+	      url = "rmi://" + args[0] + "/";
+	    }
+		try {
+			Context namingContext = new InitialContext();
+			Calculator calculator = (Calculator) namingContext.lookup(url + "calculator");
+			
+			CalculatorClient gui = new CalculatorClient(calculator);
+			gui.createGui();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public CalculatorClient(Calculator c) {
+		this.c = c;
+	}
+	
+	public void createGui() {
+		this.setLayout(new BorderLayout());
+		
+		textField = new JTextField("0");
+		textField.setEditable(true);
+		this.add(textField, "North");
+		JPanel calcPanel = new JPanel();
+		calcPanel.setLayout(new GridLayout(4,4));
+	
+		String btns = "789/456*123-0.=+";
+		
+		for (int i = 0; i < btns.length(); i++) {
+			JButton btn = new JButton(btns.substring(i, i+1));
+			calcPanel.add(btn);
+			addListener(btn);
+		}
+		
+		this.add(calcPanel);
+		this.pack();
+		this.setSize(300, 300);
+		this.setVisible(true);
+	}
+	
+	public void addListener(JButton btn) {
+		btn.addActionListener((event) -> {
+			String pressed = event.getActionCommand();
+			if (!(pressed.equals("=") || pressed.equals("+") || pressed.equals("+")
+					|| pressed.equals("-") || pressed.equals("*") || pressed.equals("/"))){
+				if (begin == true) {
+					textField.setText(pressed);
+				} 
+				else {
+					textField.setText(textField.getText() + pressed);
+				}
+				begin = false;
+			} else {
+				if (begin == true) {
+					if (pressed.equals("=")) {
+						textField.setText(pressed);
+						begin = false;
+					} else {
+						symb = pressed;
+					}
+				} else {
+					double val = Double.parseDouble(textField.getText());
+					try {
+						total = c.getCalculation(total, val, symb);
+					} catch (RemoteException e) {
+						e.printStackTrace();
+					}
+
+					textField.setText("" + total);
+					symb = pressed;
+					begin = true;
+				}
+			}
+		});
+	}
+
+}

@@ -1,0 +1,15 @@
+package edu.elon.math;
+
+import java.util.Observable;
+
+public interface CalcControllerInterface {
+
+	public void setInputs(String pressed);
+	
+	public void addToCalculation(String pressed);
+	
+	public String calculate();
+	
+	public String getCurrentText();
+	
+}
